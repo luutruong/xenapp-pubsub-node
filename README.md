@@ -23,7 +23,7 @@ XF_PAYMENT_CALLBACK_URL=
 You will need download the Google Account Service JSON and save it same level with file `server.ts`.
 The Account Service JSON must be named: `account_service.json`
 
-Finally your structure will be like:
+Finally your structure will be like (skip this step if you're using docker)
 
 ```
 ...other files
