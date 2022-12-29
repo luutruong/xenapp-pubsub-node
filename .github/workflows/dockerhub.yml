@@ -3,7 +3,7 @@ name: 'Build and push to docker hub'
 on:
   push:
     tags:
-      - '*'
+      - '*.*.*'
 
 jobs:
   build:
