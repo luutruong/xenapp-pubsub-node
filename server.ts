@@ -39,12 +39,19 @@ const sendRequest = async (id: string, data: any) => {
   _debug('begin send message', {
     id,
     retried,
+    data,
   })
 
   try {
     const resp = await axios.post(process.env.XF_PAYMENT_CALLBACK_URL as string, data, {
       validateStatus: (status) => status >= 200 && status < 400,
       timeout: 30000,
+      headers: {
+        'content-type': 'text/plain'
+      },
+      params: {
+        '_xfProvider': 'tapi_iap_android',
+      },
     })
 
     _debug('sendRequest OK', resp.data)
@@ -72,7 +79,7 @@ const sendRequest = async (id: string, data: any) => {
         _debug('sendRequest error', {
           status: e.response?.status,
           data: e.response?.data,
-          exception: e,
+          exception: e.toString(),
         })
       }
     } else {
@@ -102,7 +109,11 @@ const runPubSub = async () => {
       data,
     })
 
-    await sendRequest(message.id, data)
+    await sendRequest(message.id, JSON.stringify({
+      message: {
+        data: Buffer.from(data).toString('base64')
+      }
+    }))
   })
 }
 
